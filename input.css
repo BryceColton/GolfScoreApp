@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+.golfimg {
+    background-image: url(images/golf1.jpeg);
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
