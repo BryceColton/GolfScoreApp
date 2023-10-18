@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="text" id="age" placeholder="Age">
+        
+    </div>
+    <div>
+        <label for="gender">Select Your Gender</label>
+            <select id="gender" type="Select" placeholder="Gender">
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select>
+    </div>
+    <div>
+        <input type="text" id="height" placeholder="Type in your Height in.">
+    </div>
+
+    <div>
+        <input type="text" id="weight" placeholder="Type in your Weight in.">
+    </div>
+    <div>
+        <label for="active">Select Your Activity Level:</label>
+        <select id="active" type="Select" placeholder="Activity Level">
+            <option value="Extremely Active">Extremely Active</option>
+            <option value="Very Active">Very Active</option>
+            <option value="Active">Active</option>
+            <option value="Not Active">Not Active</option>
+            <option value="Really Not Active">Really Not Active</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="weight">Select where you want your weight to be:</label>
+        <select id="weight" type="text" placeholder="Weight Management">
+            <option value="I want to Gain Weight (bulk)">I want to Gain Weight (bulk)</option>
+            <option value="I want to Maintain my Weight">I want to Maintain my Weight</option>
+            <option value="I want to lose Weight">I want to lose Weight</option>
+        </select>
+    </div>
+
+    <div id="display">
+
+    </div>
+
+    <div>
+        <button onclick="submit()" id="submit">Submit</button>
+        <button onclick="clearFields()" id="clear">Clear</button>
+    </div>
+
+    <script src="javascript/BMR.js"></script>
+</body>
+</html>
