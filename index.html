@@ -9,41 +9,41 @@
 <body class="golfimg">
     <div class="flex h-screen justify-center items-center ">
         
-        <div class="flex backdrop-blur-xl h-1/2 w-1/2 items-center justify-center opacity-95">
+        <div class="flex flex-col backdrop-blur-xl h-3/4 w-3/4 items-center justify-center opacity-95" id="mainContainer">
             <div>
-                <div class="flex justify-center text-3xl">
+                <div class="flex justify-center text-3xl" id="courseSelectContainer">
                     <label for="course-select">Select Course</label>
-                    <select class="text-3xl" id="course-select">
-                        <!-- Options for golf courses will be dynamically added here using JavaScript -->
+                    <select id="course-select">
+                        <!-- options -->
                     </select>
                 </div>
-                <div class="flex justify-center text-3xl">
+                <div class="flex justify-center text-3xl hidden" id="holeSelectContainer">
+                    <label for="hole-select">Select Hole</label>
+                    <select id="holeSelector">
+                        <!-- Options -->
+                    </select>
+                </div>
+
+                <div class="flex justify-center text-3xl hidden" id="playersContainer">
+                    <label for="playersSelector">Select How many Players are playing</label>
+                    <select id="playersSelector">
+                        <!-- Options -->
+                    </select>
+                </div>
+            
+                <div class="flex justify-center text-3xl hidden" id="teeBoxContainer">
                     <label for="tee-box-select">Select Tee Box</label>
-                    <select class="form-control" id="tee-box-select">
-                        <!-- Options for tee boxes will be dynamically added here using JavaScript -->
+                    <select id="teeBoxSelect">
+                        <!-- Options -->
                     </select>
                 </div>
-                <div class="table-responsive text-3xl">
-                    <table class="table-auto border-2">
-                        <thead>
-                            <tr class="border-2 border-black">
-                                <th class="border-x-2 border-black">Hole</th>
-                                <th class="border-x-2 border-black">Yardage</th>
-                                <th class="border-x-2 border-black">Par</th>
-                                <th class="border-x-2 border-black">Course</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Rows for holes -->
-                        </tbody>
-                    </table>
-                </div>
+            
             </div>
         </div>
 
         
 
     </div>
-    <script class="golf.js"></script>
+    <script src="src/golf.js"></script>
 </body>
 </html>

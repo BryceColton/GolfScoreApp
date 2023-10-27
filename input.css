@@ -11,3 +11,21 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+select {
+    width: 33%;
+}
+
+input {
+    background-color: azure;
+    width: 60%;
+    height: 10%;
+    font-weight: 800;
+    text-decoration: none;
+    transition:all 0.3s; /* Add a transition for a smooth effect on the transform property */
+}
+
+input:hover,
+input:focus {
+    transform: scale(1.2); /* Scale the input element to 1.2 times its original size */
+}
