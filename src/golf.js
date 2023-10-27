@@ -127,12 +127,12 @@ async function getAvailableCourses() {
         playersCard.appendChild(playerInput)
         playerInput.focus()
 
-        playerInput.addEventListener('keypress', (event) => {
+        playerInput.addEventListener('keydown', (event) => {
           if (event.key === 'Enter') {
             let playerName = document.getElementById(`inputName${i}`)
             console.log(playerName.value)
             let playerNameContainer = document.createElement('h1')
-             playerNameContainer.textContent = playerName.value
+            playerNameContainer.textContent = playerName.value
             playerNameContainer.className = 'flex text-3xl'
             playersCard.appendChild(playerNameContainer)
             playersCard.removeChild(playerName)
