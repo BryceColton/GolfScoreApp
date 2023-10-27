@@ -121,11 +121,40 @@ async function getAvailableCourses() {
 
       for (let i = 1; i <= players; i++){
         const playerInput = document.createElement('input')
-        const playerLabel = document.createElement('h2')
-        playerLabel.textContent = 'Enter Player Name:'
+        playerInput.placeholder = 'Enter Player Name:'
         playerInput.className = "flex flex-col"
-        playersCard.appendChild(playerLabel)
+        playerInput.id = `inputName${i}`
         playersCard.appendChild(playerInput)
+        playerInput.focus()
+
+        playerInput.addEventListener('keypress', (event) => {
+          if (event.key === 'Enter') {
+            let playerName = document.getElementById(`inputName${i}`)
+            console.log(playerName.value)
+            let playerNameContainer = document.createElement('h1')
+             playerNameContainer.textContent = playerName.value
+            playerNameContainer.className = 'flex text-3xl'
+            playersCard.appendChild(playerNameContainer)
+            playersCard.removeChild(playerName)
+          }
+          
+        });
+
+        
+        playerInput.addEventListener('blur', (event) => {
+          if (playerName === ''){
+
+          }else {
+            let playerName = document.getElementById(`inputName${i}`)
+            console.log(playerName.value)
+            let playerNameContainer = document.createElement('h1')
+             playerNameContainer.textContent = playerName.value
+             playerNameContainer.className = 'flex text-3xl'
+            playersCard.appendChild(playerNameContainer)
+            playersCard.removeChild(playerName)
+          }
+        });
+        
 
     
 
@@ -164,6 +193,7 @@ async function getAvailableCourses() {
        
 }
   
+
 
 
 
