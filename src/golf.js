@@ -9,6 +9,29 @@ const playersContainer = document.getElementById('playersContainer')
 const playersSelector = document.getElementById('playersSelector')
 const holeNumberContainer = document.getElementById('holeSelectContainer')
 const holeSelector = document.getElementById('holeSelector')
+const spreadSheet = document.getElementById('spreadSheet')
+const holeSelectContain2 = document.getElementById('holeSelectContain2')
+const scoreTableIn = document.getElementById('scoreTableIn')
+const scoreTableOut = document.getElementById('scoreTableOut')
+const tableIn = document.createElement('table'); // Separate tables for IN and OUT
+const tbodyIn = document.createElement('tbody');
+const tableOut = document.createElement('table');
+const tbodyOut = document.createElement('tbody');
+
+let totalYardageIn = 0;
+let totalYardageOut = 0;
+let totalYardage = 0;
+
+let totalParIn = 0;
+let totalParOut = 0;
+let totalPar = 0;
+
+let totalIn = 0;
+let totalOut = 0;
+
+scoreTableIn.appendChild(tableIn);
+scoreTableOut.appendChild(tableOut);
+const playerNames = [];
 let players = 0;
 let teeGame= '';
 
@@ -29,6 +52,7 @@ async function getAvailableCourses() {
   firstOption.value = null;
   firstOption.textContent = '';
   courseOptions.appendChild(firstOption)
+
 
   data.forEach(async (course) => {
     const courseDataResponse = await fetchCourseData(course.url);
@@ -61,10 +85,12 @@ async function getAvailableCourses() {
     
       if (selectedCourse && selectedCourse.holes) {
         const firstHole = selectedCourse.holes[0];
+
         firstHole.teeBoxes.forEach((teeBox) => {
           console.log(teeBox.teeColorType)
+          
           const option = document.createElement('option');
-          option.value = `${teeBox.teeType} (${teeBox.teeColorType})`;
+          option.value = `${teeBox.teeType}`;
           option.textContent = `${teeBox.teeType} (${teeBox.teeColorType})`;
           teeBoxSelect.appendChild(option);
         });
@@ -72,13 +98,20 @@ async function getAvailableCourses() {
     }
   });
 
+
   teeBoxSelect.addEventListener('change', () =>{
     const selectedCourseId = courseOptions.value;
+
     console.log('Selected Course ID:', selectedCourseId);
     if (selectedCourseId){
       teeBoxContainer.classList.add('hidden');
 
       playersContainer.classList.remove('hidden');
+
+      const selectedCourse = courseData[selectedCourseId];
+       
+
+
       const firstOption = document.createElement('option');
       firstOption.value = null;
       firstOption.textContent = '';
@@ -97,11 +130,218 @@ async function getAvailableCourses() {
       
      } })
 
-  playersSelector.addEventListener('change', () =>{
+     teeBoxSelect.addEventListener('change', () => {
+      const selectedCourseId = courseOptions.value;
+      const selectedTeeBox = teeBoxSelect.value;
+      let yardageRow = document.createElement('tr');
+      let yardageRowOut = document.createElement('tr')
+      let yardageText = document.createElement('td');
+      let yardageTextOut = document.createElement('td');
+      let yardageCell;
+      let hcpIn = document.createElement('tr')
+      let hcpOut = document.createElement('tr')
+      let hcpInText = document.createElement('td')
+      let hcpOutText = document.createElement('td')
+
+      let parIn = document.createElement('tr')
+      let parOut = document.createElement('tr')
+      let parInText = document.createElement('td')
+      let parOutText = document.createElement('td')
+
+      parInText.textContent = 'Par'
+        parOutText.textContent = 'Par'
+
+      hcpInText.textContent = 'Handicap'
+      hcpOutText.textContent = 'Handicap'
+
+      yardageText.textContent = 'Yardage';
+      yardageTextOut.textContent = 'Yardage'
+
+
+
+      yardageRow.appendChild(yardageText);
+      yardageRowOut.appendChild(yardageTextOut)
+
+      hcpIn.appendChild(hcpInText)
+      hcpOut.appendChild(hcpOutText)
+
+      parIn.appendChild(parInText)
+      parOut.appendChild(parOutText)
+
+      tbodyIn.appendChild(yardageRow)
+      tbodyOut.appendChild(yardageRowOut)
+
+      tbodyIn.appendChild(hcpIn)
+      tbodyOut.appendChild(hcpOut)
+
+      tbodyIn.appendChild(parIn)
+      tbodyOut.appendChild(parOut)
+
+      
+
+      if (selectedCourseId) {
+        let totalYardageIn = 0;
+        let totalYardageOut = 0;
+        let totalParIn = 0;
+        let totalParOut = 0;
+    
+        const selectedCourse = courseData[selectedCourseId];
+
+        for (let i = 1; i <= 18; i++) {
+          
+          const parCell = document.createElement('td')
+          const handiCapCell = document.createElement('td')
+          const yardageCell = document.createElement('td');
+          yardageCell.className = 'yardage-cell';
+          handiCapCell.className = 'handicap-cell'
+          parCell.className = 'par-cell'
+        
+          if (i <= 9) {
+            yardageRow.appendChild(yardageCell);
+            hcpIn.appendChild(handiCapCell)
+            parIn.appendChild(parCell)
+          } else {
+            yardageRowOut.appendChild(yardageCell);
+            hcpOut.appendChild(handiCapCell)
+            parOut.appendChild(parCell)
+          }
+        }
+        
+        tbodyIn.appendChild(yardageRow)
+        tbodyOut.appendChild(yardageRowOut)
+        tbodyIn.appendChild(hcpIn)
+        tbodyOut.appendChild(hcpOut)
+        tbodyIn.appendChild(parIn)
+        tbodyIn.appendChild(parOut)
+
+        
+
+        scoreTableIn.appendChild(tbodyIn)
+        scoreTableOut.appendChild(tbodyOut)
+
+        console.log('Selected Course:', selectedCourse);
+
+
+        selectedCourse.holes.slice(0, 9).forEach((_hole) => {
+          const holeTd = document.createElement('td');
+          holeTd.value = _hole.hole;
+          holeTd.textContent = _hole.hole;
+          holeNumber.appendChild(holeTd);
+
+      });
+  
     
 
+        let In = document.createElement('td');
+        In.textContent = 'IN';
+        holeNumber.appendChild(In);
+        
+        tbodyIn.appendChild(holeNumber);
+
+
+        const yardageCells = document.querySelectorAll('.yardage-cell');
+        const handiCapCells = document.querySelectorAll('.handicap-cell')
+        const parCells = document.querySelectorAll('.par-cell')
+
+        console.log('Number of yardage cells:', yardageCells.length);
+        console.log('Number of handicapcells:', handiCapCells.length);
+        console.log('number of parCells', parCells.length)
+        
+        for (let index = 0; index < selectedCourse.holes.length; index++) {
+          const hole = selectedCourse.holes[index];
+          console.log('Hole:', hole);
+    
+          if (hole) {
+            const teeBox = hole.teeBoxes.find(tee => tee.teeType === selectedTeeBox);
+    
+            console.log('Tee Box:', teeBox);
+            console.log('Yards', teeBox.yards)
+            console.log('Handicap', teeBox.hcp)
+            console.log('par', teeBox.par)
+    
+            if (teeBox) {
+              const par = teeBox.par
+              const parCell = parCells[index]
+              parCell.textContent = par
+              const handiCap = teeBox.hcp
+              const handiCapCell = handiCapCells[index]
+              handiCapCell.textContent = handiCap
+              const yardage = teeBox.yards;
+              const yardageCell = yardageCells[index]; 
+              console.log(yardage)
+              yardageCell.textContent = yardage;
+
+              
+          
+              if (index < 9) {
+                  totalYardageIn += yardage;
+                  totalParIn += par 
+                  
+              } else {
+                  totalYardageOut += yardage;
+                  totalParOut += par
+              }
+          } else {
+              console.log(`Tee box not found for hole ${hole.hole}`);
+          }
+          }
+        }
+
+        const ParInCellTotal = document.createElement('td');
+        ParInCellTotal.textContent = `${totalParIn}`;
+        parIn.appendChild(ParInCellTotal);
+
+        const ParOutCellTotal = document.createElement('td');
+        ParOutCellTotal.textContent = `${totalParOut}`;
+        parOut.appendChild(ParOutCellTotal);
+
+        const totalPar = totalParIn + totalParOut;
+
+        const totalParCell = document.createElement('td');
+        totalParCell.textContent = `${totalPar}`;
+        parOut.appendChild(totalParCell);
+      
+
+       
+
+         const totalInYardage = document.createElement('td');
+        totalInYardage.textContent = `${totalYardageIn}`;
+        yardageRow.appendChild(totalInYardage);
+
+        const totalOutYardage = document.createElement('td');
+        totalOutYardage.textContent = `${totalYardageOut}`;
+        yardageRowOut.appendChild(totalOutYardage);
+
+        const totalYardage = totalYardageIn + totalYardageOut;
+
+        const totalYardageCell = document.createElement('td');
+        totalYardageCell.textContent = `${totalYardage}`;
+        yardageRowOut.appendChild(totalYardageCell);
+
+        tbodyIn.appendChild(hcpIn)
+        tbodyOut.appendChild(hcpOut)
+
+        tbodyIn.appendChild(yardageRow)
+        tbodyOut.appendChild(yardageRowOut)
+
+        tbodyIn.appendChild(parIn)
+        tbodyOut.appendChild(parOut)
+
+        scoreTableIn.appendChild(tbodyIn)
+        scoreTableOut.appendChild(tbodyOut)
+    
+        console.log(`Total Yardage In: ${totalYardageIn}`);
+        console.log(`Total Yardage Out: ${totalYardageOut}`);
+      }
+    });
+    
+    
+    
+
+  playersSelector.addEventListener('change', () =>{
+    
+      playersContainer.classList.add('hidden')
   
-      playersContainer.classList.remove('hidden');
       holeNumberContainer.classList.remove('hidden')
 
       let playersCard = document.createElement('div')
@@ -117,46 +357,38 @@ async function getAvailableCourses() {
     const teeGameContainer = document.createElement('div')
     teeGameContainer.textContent = `Game Tee: ${teeGame}`
     teeGameContainer.className = 'flex text-3xl'
+
+    
+
+
     playersCard.appendChild(teeGameContainer)
 
-      for (let i = 1; i <= players; i++){
-        const playerInput = document.createElement('input')
-        playerInput.placeholder = 'Enter Player Name:'
-        playerInput.className = "flex flex-col"
-        playerInput.id = `inputName${i}`
-        playersCard.appendChild(playerInput)
-        playerInput.focus()
+    for (let i = 1; i <= players; i++) {
+      const playerInput = document.createElement('input');
+      playerInput.placeholder = 'Enter Player Name:';
+      playerInput.className = "flex flex-col";
+      playerInput.id = `inputName${i}`;
+      playersCard.appendChild(playerInput);
+      playerInput.focus();
 
-        playerInput.addEventListener('keydown', (event) => {
+      playerInput.addEventListener('keydown', (event) => {
           if (event.key === 'Enter') {
-            let playerName = document.getElementById(`inputName${i}`)
-            console.log(playerName.value)
-            let playerNameContainer = document.createElement('h1')
-            playerNameContainer.textContent = playerName.value
-            playerNameContainer.className = 'flex text-3xl'
-            playersCard.appendChild(playerNameContainer)
-            playersCard.removeChild(playerName)
+              let playerName = document.getElementById(`inputName${i}`).value;
+              let playerRow = document.createElement('tr')
+              let playerRow2 = document.createElement('tr')
+
+              playerRow.textContent = playerName
+              playerRow2.textContent = playerName
+              let playerNameContainer = document.createElement('h1');
+              playerNameContainer.textContent = playerName;
+              playerNameContainer.className = 'flex text-3xl';
+              playersCard.appendChild(playerNameContainer);
+              playersCard.removeChild(playerInput)
+
+              createPlayerScoreRows(playerName);
           }
           
         });
-
-        
-        playerInput.addEventListener('blur', (event) => {
-          if (playerName === ''){
-
-          }else {
-            let playerName = document.getElementById(`inputName${i}`)
-            console.log(playerName.value)
-            let playerNameContainer = document.createElement('h1')
-             playerNameContainer.textContent = playerName.value
-             playerNameContainer.className = 'flex text-3xl'
-            playersCard.appendChild(playerNameContainer)
-            playersCard.removeChild(playerName)
-          }
-        });
-        
-
-    
 
       }
 
@@ -172,34 +404,184 @@ async function getAvailableCourses() {
         
         console.log(selectedCourse.holes)
   
+
+                  // Assuming you have a table element with an ID "scoreTableIn"
+        let playerNameRowIn = document.createElement('tr');
+
+        
+        let holeNumberOut = document.createElement('tr');
+        let holeNumber = document.createElement('tr');
+        
+        
+        
+        let realFirstHole = document.createElement('td');
+        let secondFirstHole = document.createElement('td');
+        
+        secondFirstHole.textContent = 'Hole #';
+        realFirstHole.textContent = 'Hole #';
+        
+        
+        
+        
+        holeNumberOut.appendChild(secondFirstHole);
+        holeNumber.appendChild(realFirstHole);
+
+
+       
+
+        
+
+      console.log(playerNames)
+     
+      tbodyIn.appendChild(holeNumber);
+      // tbodyIn.appendChild(yardageRow);
       
-  
+      
+      
+      tableIn.appendChild(tbodyIn);
+
+        // Create the table rows for the "OUT" holes
+        
+
+        let Out = document.createElement('td');
+        Out.textContent = 'OUT';
+        holeNumberOut.appendChild(Out);
+
+        let total = document.createElement('td');
+        total.textContent = 'Total';
+        holeNumberOut.appendChild(total);
+
+       
+
+       
+
+        // Add rows to the IN and OUT tables
+        tableIn.appendChild(tbodyIn);
+        tableOut.appendChild(tbodyOut);
+
+        // Add the tables to the respective divs
+        scoreTableIn.appendChild(tableIn);
+        scoreTableOut.appendChild(tableOut);
+
+
         selectedCourse.holes.forEach((_hole) => {
-          console.log(_hole.hole)
+
           const option = document.createElement('option');
           option.value = _hole.hole
           option.textContent = _hole.hole
           holeSelector.appendChild(option);
         });
-          
         
-      
+        tableIn.appendChild(tbodyIn)
+        scoreTableIn.appendChild(tableIn)
+
+        spreadSheet.addEventListener('click', (event) => {
+          scoreTableIn.classList.toggle('hidden')
+          scoreTableOut.classList.toggle('hidden')
+          holeSelectContain2.classList.toggle('hidden')
+          playersCard.classList.toggle('hidden')
+        })
     }
-
-
- 
   })
-
-       
 }
-  
-
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
   getAvailableCourses();
 });
+
+
+function createPlayerScoreRows(playerName) {
+  const playerRowIn = document.createElement('tr');
+  const playerRowOut = document.createElement('tr');
+
+  const playerNameCellIn = document.createElement('td');
+  playerNameCellIn.textContent = playerName;
+  playerRowIn.appendChild(playerNameCellIn);
+
+  const playerNameCellOut = document.createElement('td');
+  playerNameCellOut.textContent = playerName;
+  playerRowOut.appendChild(playerNameCellOut);
+
+  let totalIn = 0; 
+  let totalOut = 0; 
+
+  for (let i = 0; i < 18; i++) {
+    const holeScoreCellIn = document.createElement('td');
+    const holeScoreCellOut = document.createElement('td');
+
+    holeScoreCellIn.textContent = '';
+    holeScoreCellOut.textContent = '';
+
+    if (i < 9) {
+      holeScoreCellIn.addEventListener('click', () => {
+        const inputElement = document.createElement('input');
+        inputElement.placeholder = 'Enter score';
+        inputElement.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            const score = parseInt(inputElement.value);
+            if (!isNaN(score)) {
+              totalIn += score;
+              inTotalCellIn.textContent = `${totalIn}`;
+              holeScoreCellIn.textContent = score;
+              totalCell.textContent = `${totalIn + totalOut}`;
+            }
+          }
+        });
+
+        holeScoreCellIn.innerHTML = '';
+        holeScoreCellIn.appendChild(inputElement);
+        inputElement.focus();
+      });
+
+      playerRowIn.appendChild(holeScoreCellIn);
+    } else {
+      holeScoreCellOut.addEventListener('click', () => {
+        const inputElement = document.createElement('input');
+        inputElement.placeholder = 'Enter score';
+        inputElement.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            const score = parseInt(inputElement.value);
+            if (!isNaN(score)) {
+              totalOut += score;
+              outTotalCellOut.textContent = `${totalOut}`;
+              holeScoreCellOut.textContent = score;
+              totalCell.textContent = `${totalIn + totalOut}`;
+            }
+          }
+        });
+
+        holeScoreCellOut.innerHTML = '';
+        holeScoreCellOut.appendChild(inputElement);
+        inputElement.focus();
+      });
+
+      playerRowOut.appendChild(holeScoreCellOut);
+    }
+  }
+
+  const inTotalCellIn = document.createElement('td');
+  inTotalCellIn.textContent = `${totalIn}`;
+  playerRowIn.appendChild(inTotalCellIn);
+
+  const outTotalCellOut = document.createElement('td');
+  outTotalCellOut.textContent = `${totalOut}`;
+  playerRowOut.appendChild(outTotalCellOut);
+
+  const totalCell = document.createElement('td');
+  totalCell.textContent = `${totalIn + totalOut}`;
+  playerRowOut.appendChild(totalCell);
+
+  tbodyIn.appendChild(playerRowIn);
+  tbodyOut.appendChild(playerRowOut);
+}
+
+
+function updateTotalRows(playerRow, totalIn, totalOut) {
+  const inTotalCell = document.createElement('td');
+  inTotalCell.textContent = `${totalIn}`;
+  playerRow.appendChild(inTotalCell);
+
+  const outTotalCell = document.createElement('td');
+  outTotalCell.textContent = `${totalOut}`;
+  playerRow.appendChild(outTotalCell);
+}
 

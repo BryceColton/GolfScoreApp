@@ -12,8 +12,13 @@
     background-repeat: no-repeat;
 }
 
+option {
+    cursor:pointer;
+}
+
 select {
     width: 33%;
+    cursor:pointer
 }
 
 input {
@@ -22,10 +27,35 @@ input {
     height: 10%;
     font-weight: 800;
     text-decoration: none;
+    cursor:pointer;
     transition:all 0.3s; /* Add a transition for a smooth effect on the transform property */
 }
 
 input:hover,
 input:focus {
-    transform: scale(1.2); /* Scale the input element to 1.2 times its original size */
+    transform: scale(1.2); 
+    
+    /* Scal
+    e the input element to 1.2 times its original size */
 }
+
+#spreadSheet {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#spreadSheet:hover {
+    transform: scale(1.2)
+}
+
+td {
+    border-width: 0.1rem;
+    border-color: black;
+}
+
+tr {
+    border-width: 0.1rem;
+    border-color: black;
+}
+
+

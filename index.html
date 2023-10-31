@@ -10,11 +10,11 @@
 </head>
 <body class="golfimg">
     
-    <div class="flex h-screen justify-center items-center ">
+    <div class="flex h-screen w-screen justify-center items-center ">
         
         
         <div class="flex flex-col backdrop-blur-xl h-3/4 w-3/4 items-center justify-center opacity-95" id="mainContainer">
-            <div>
+            <div class="flex w-full justify-center items-center">
                     
 
                 <div class="flex justify-center items-center text-3xl" id="courseSelectContainer">
@@ -23,15 +23,27 @@
                     <select id="course-select">
                         <!-- options -->
                     </select>
-                    <i class="fa-solid fa-table text-5xl mx-5"></i>
                 </div>
                 <div class="flex justify-center items-center text-3xl hidden" id="holeSelectContainer">
-                    
-                    <label for="hole-select">Select Hole</label>
-                    <select id="holeSelector">
-                        <!-- Options -->
-                    </select>
-                    <i class="fa-solid fa-table text-5xl mx-5"></i>
+                    <div id="holeSelectContain2">
+                        <label for="hole-select">Select Hole</label>
+                        <select id="holeSelector">
+                            <!-- Options -->
+                        </select>
+                    </div>
+                    <div id="spreadSheetContainer" class="flex w-full justify-center items-center">
+                        <div id="scoreTableIn" class="flex w-full justify-center items-center hidden">
+
+                        </div>
+
+                        <div id="scoreTableOut" class="flex w-full  justify-center items-center hidden">
+
+                        </div>
+
+                            <!-- td and tr creating for the score per hole and player -->
+                        
+                        <i id="spreadSheet" class="fa-solid fa-table text-5xl mx-5"></i>
+                    </div>
                 </div>
 
                 <div class="flex justify-center text-3xl hidden" id="playersContainer">
@@ -40,7 +52,6 @@
                     <select id="playersSelector">
                         <!-- Options -->
                     </select>
-                    <i class="fa-solid fa-table text-5xl mx-5"></i>
                 </div>
             
                 <div class="flex justify-center text-3xl hidden" id="teeBoxContainer">
@@ -49,7 +60,6 @@
                     <select id="teeBoxSelect">
                         <!-- Options -->
                     </select>
-                    <i class="fa-solid fa-table text-5xl mx-5"></i>
                 </div>
             
             </div>

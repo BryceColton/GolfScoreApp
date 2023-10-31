@@ -543,6 +543,10 @@ video {
   display: flex;
 }
 
+.table {
+  display: table;
+}
+
 .hidden {
   display: none;
 }
@@ -567,6 +571,10 @@ video {
   width: 100%;
 }
 
+.w-screen {
+  width: 100vw;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -588,23 +596,18 @@ video {
   line-height: 2.25rem;
 }
 
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
 .text-5xl {
   font-size: 3rem;
   line-height: 1;
 }
 
-.opacity-95 {
-  opacity: 0.95;
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
-.blur {
-  --tw-blur: blur(8px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+.opacity-95 {
+  opacity: 0.95;
 }
 
 .backdrop-blur-xl {
@@ -620,8 +623,13 @@ video {
   background-repeat: no-repeat;
 }
 
+option {
+  cursor:pointer;
+}
+
 select {
   width: 33%;
+  cursor:pointer
 }
 
 input {
@@ -630,6 +638,7 @@ input {
   height: 10%;
   font-weight: 800;
   text-decoration: none;
+  cursor:pointer;
   transition:all 0.3s;
   /* Add a transition for a smooth effect on the transform property */
 }
@@ -637,5 +646,27 @@ input {
 input:hover,
 input:focus {
   transform: scale(1.2);
-  /* Scale the input element to 1.2 times its original size */
+  /* Scal
+    e the input element to 1.2 times its original size */
 }
+
+#spreadSheet {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#spreadSheet:hover {
+  transform: scale(1.2)
+}
+
+td {
+  border-width: 0.1rem;
+  border-color: black;
+}
+
+tr {
+  border-width: 0.1rem;
+  border-color: black;
+}
+
+
