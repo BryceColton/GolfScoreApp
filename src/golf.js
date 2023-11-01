@@ -26,6 +26,10 @@ let totalParIn = 0;
 let totalParOut = 0;
 let totalPar = 0;
 
+let totalhandiCapIn = 0;
+let totalhandiCapOut = 0;
+let totalhandiCap = 0
+
 let totalIn = 0;
 let totalOut = 0;
 
@@ -148,6 +152,19 @@ async function getAvailableCourses() {
       let parInText = document.createElement('td')
       let parOutText = document.createElement('td')
 
+      let holeNumberOut = document.createElement('tr');
+        let holeNumber = document.createElement('tr');       
+        let realFirstHole = document.createElement('td');
+        let secondFirstHole = document.createElement('td'); 
+        
+        
+    secondFirstHole.textContent = 'Hole #';
+    realFirstHole.textContent = 'Hole #';     
+
+    
+    holeNumberOut.appendChild(secondFirstHole);
+    holeNumber.appendChild(realFirstHole);
+
       parInText.textContent = 'Par'
         parOutText.textContent = 'Par'
 
@@ -162,20 +179,24 @@ async function getAvailableCourses() {
       yardageRow.appendChild(yardageText);
       yardageRowOut.appendChild(yardageTextOut)
 
-      hcpIn.appendChild(hcpInText)
-      hcpOut.appendChild(hcpOutText)
+      
 
       parIn.appendChild(parInText)
       parOut.appendChild(parOutText)
 
+      hcpIn.appendChild(hcpInText)
+      hcpOut.appendChild(hcpOutText)
+
       tbodyIn.appendChild(yardageRow)
       tbodyOut.appendChild(yardageRowOut)
 
-      tbodyIn.appendChild(hcpIn)
-      tbodyOut.appendChild(hcpOut)
+      
 
       tbodyIn.appendChild(parIn)
       tbodyOut.appendChild(parOut)
+
+      tbodyIn.appendChild(hcpIn)
+      tbodyOut.appendChild(hcpOut)
 
       
 
@@ -184,14 +205,17 @@ async function getAvailableCourses() {
         let totalYardageOut = 0;
         let totalParIn = 0;
         let totalParOut = 0;
+        let totalhandiCapIn = 0;
+        let totalhandiCapOut = 0;
     
         const selectedCourse = courseData[selectedCourseId];
 
         for (let i = 1; i <= 18; i++) {
-          
+          const holeTd = document.createElement('td');
           const parCell = document.createElement('td')
           const handiCapCell = document.createElement('td')
           const yardageCell = document.createElement('td');
+          holeTd.className = 'hole-cell';
           yardageCell.className = 'yardage-cell';
           handiCapCell.className = 'handicap-cell'
           parCell.className = 'par-cell'
@@ -200,19 +224,26 @@ async function getAvailableCourses() {
             yardageRow.appendChild(yardageCell);
             hcpIn.appendChild(handiCapCell)
             parIn.appendChild(parCell)
+            holeNumber.appendChild(holeTd)
           } else {
             yardageRowOut.appendChild(yardageCell);
             hcpOut.appendChild(handiCapCell)
             parOut.appendChild(parCell)
+            holeNumberOut.appendChild(holeTd)
           }
         }
         
+
+        tbodyIn.appendChild(holeNumber)
+        tbodyOut.appendChild(holeNumberOut)
         tbodyIn.appendChild(yardageRow)
         tbodyOut.appendChild(yardageRowOut)
-        tbodyIn.appendChild(hcpIn)
-        tbodyOut.appendChild(hcpOut)
+        
         tbodyIn.appendChild(parIn)
         tbodyIn.appendChild(parOut)
+
+        tbodyIn.appendChild(hcpIn)
+        tbodyOut.appendChild(hcpOut)
 
         
 
@@ -220,28 +251,15 @@ async function getAvailableCourses() {
         scoreTableOut.appendChild(tbodyOut)
 
         console.log('Selected Course:', selectedCourse);
-
-
-        selectedCourse.holes.slice(0, 9).forEach((_hole) => {
-          const holeTd = document.createElement('td');
-          holeTd.value = _hole.hole;
-          holeTd.textContent = _hole.hole;
-          holeNumber.appendChild(holeTd);
-
-      });
   
     
 
-        let In = document.createElement('td');
-        In.textContent = 'IN';
-        holeNumber.appendChild(In);
         
-        tbodyIn.appendChild(holeNumber);
-
 
         const yardageCells = document.querySelectorAll('.yardage-cell');
         const handiCapCells = document.querySelectorAll('.handicap-cell')
         const parCells = document.querySelectorAll('.par-cell')
+        const holeCells = document.querySelectorAll('.hole-cell')
 
         console.log('Number of yardage cells:', yardageCells.length);
         console.log('Number of handicapcells:', handiCapCells.length);
@@ -249,9 +267,14 @@ async function getAvailableCourses() {
         
         for (let index = 0; index < selectedCourse.holes.length; index++) {
           const hole = selectedCourse.holes[index];
+          
           console.log('Hole:', hole);
     
           if (hole) {
+
+            const realHole = hole.hole
+            const holeCell = holeCells[index]
+            holeCell.textContent = realHole
             const teeBox = hole.teeBoxes.find(tee => tee.teeType === selectedTeeBox);
     
             console.log('Tee Box:', teeBox);
@@ -260,6 +283,7 @@ async function getAvailableCourses() {
             console.log('par', teeBox.par)
     
             if (teeBox) {
+              
               const par = teeBox.par
               const parCell = parCells[index]
               parCell.textContent = par
@@ -276,16 +300,24 @@ async function getAvailableCourses() {
               if (index < 9) {
                   totalYardageIn += yardage;
                   totalParIn += par 
+                  totalhandiCapIn += handiCap
+                
                   
               } else {
                   totalYardageOut += yardage;
                   totalParOut += par
+                  totalhandiCapOut += handiCap
               }
           } else {
               console.log(`Tee box not found for hole ${hole.hole}`);
           }
           }
         }
+        let In = document.createElement('td');
+        In.textContent = 'IN';
+        holeNumber.appendChild(In);
+        
+        tbodyIn.appendChild(holeNumber);
 
         const ParInCellTotal = document.createElement('td');
         ParInCellTotal.textContent = `${totalParIn}`;
@@ -300,6 +332,31 @@ async function getAvailableCourses() {
         const totalParCell = document.createElement('td');
         totalParCell.textContent = `${totalPar}`;
         parOut.appendChild(totalParCell);
+
+        const HandicapTotalIn = document.createElement('td');
+        HandicapTotalIn.textContent = `${totalhandiCapIn}`;
+        hcpIn.appendChild(HandicapTotalIn);
+
+        const HandicapTotalOut = document.createElement('td');
+        HandicapTotalOut.textContent = `${totalhandiCapOut}`;
+        hcpOut.appendChild(HandicapTotalOut);
+
+        const totalhandiCap = totalhandiCapIn + totalhandiCapOut;
+
+        const totalHandicapCell = document.createElement('td');
+        totalHandicapCell.textContent = `${totalhandiCap}`;
+        hcpOut.appendChild(totalHandicapCell);
+
+        
+        let Out = document.createElement('td');
+        Out.textContent = 'OUT';
+        holeNumberOut.appendChild(Out);
+
+        let total = document.createElement('td');
+        total.textContent = 'Total';
+        holeNumberOut.appendChild(total);
+
+       
       
 
        
@@ -318,14 +375,19 @@ async function getAvailableCourses() {
         totalYardageCell.textContent = `${totalYardage}`;
         yardageRowOut.appendChild(totalYardageCell);
 
-        tbodyIn.appendChild(hcpIn)
-        tbodyOut.appendChild(hcpOut)
+        tbodyIn.appendChild(holeNumber)
+        tbodyOut.appendChild(holeNumberOut)
+
+        
 
         tbodyIn.appendChild(yardageRow)
         tbodyOut.appendChild(yardageRowOut)
 
         tbodyIn.appendChild(parIn)
         tbodyOut.appendChild(parOut)
+
+        tbodyIn.appendChild(hcpIn)
+        tbodyOut.appendChild(hcpOut)
 
         scoreTableIn.appendChild(tbodyIn)
         scoreTableOut.appendChild(tbodyOut)
@@ -409,49 +471,13 @@ async function getAvailableCourses() {
         let playerNameRowIn = document.createElement('tr');
 
         
-        let holeNumberOut = document.createElement('tr');
-        let holeNumber = document.createElement('tr');
         
-        
-        
-        let realFirstHole = document.createElement('td');
-        let secondFirstHole = document.createElement('td');
-        
-        secondFirstHole.textContent = 'Hole #';
-        realFirstHole.textContent = 'Hole #';
-        
-        
-        
-        
-        holeNumberOut.appendChild(secondFirstHole);
-        holeNumber.appendChild(realFirstHole);
 
 
        
 
-        
 
-      console.log(playerNames)
-     
-      tbodyIn.appendChild(holeNumber);
-      // tbodyIn.appendChild(yardageRow);
-      
-      
-      
-      tableIn.appendChild(tbodyIn);
 
-        // Create the table rows for the "OUT" holes
-        
-
-        let Out = document.createElement('td');
-        Out.textContent = 'OUT';
-        holeNumberOut.appendChild(Out);
-
-        let total = document.createElement('td');
-        total.textContent = 'Total';
-        holeNumberOut.appendChild(total);
-
-       
 
        
 
